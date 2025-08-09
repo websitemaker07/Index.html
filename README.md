@@ -1,0 +1,129 @@
+# fun-personality-quiz
+   "A simple and interactive personality quiz website built with HTML, CSS, and JavaScript. Discover fun quiz questions and share your results!"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .option {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #dcdcdc;
+        }
+        #next-btn {
+            background: #ff7b54;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 id="question">Question here</h2>
+        <div id="options"></div>
+        <button id="next-btn">Next</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            { q: "Tum apna din kaise start karte ho?", o: ["Exercise 🏋️", "Meditation 🧘", "Work 📂", "Masti 😄"], s: [3,2,4,1] },
+            { q: "Tumhe kaunsa season pasand hai?", o: ["Summer ☀️", "Winter ❄️", "Rainy 🌧", "Spring 🌸"], s: [2,3,1,4] },
+            { q: "Weekend pe kya karte ho?", o: ["Travel ✈️", "Netflix 🎬", "Party 🎉", "Sleep 😴"], s: [4,2,3,1] },
+            { q: "Tumhe kaunsa color pasand hai?", o: ["Red 🔴", "Blue 🔵", "Green 🟢", "Yellow 🟡"], s: [4,3,2,1] },
+            { q: "Tum dost kaise banate ho?", o: ["Fast 🤝", "Slow 🐢", "Online 💻", "Rarely 😶"], s: [3,2,4,1] },
+            { q: "Tumhari superpower kya hoti?", o: ["Flying 🕊", "Invisibility 👻", "Mind Reading 🧠", "Super Strength 💪"], s: [4,2,3,1] },
+            { q: "Tum kis cheez ko value dete ho?", o: ["Family ❤️", "Money 💰", "Fame 🌟", "Knowledge 📚"], s: [3,4,2,1] },
+            { q: "Tum kaunsa music pasand karte ho?", o: ["Pop 🎤", "Rock 🎸", "Classical 🎻", "EDM 🎧"], s: [3,4,1,2] },
+            { q: "Tum kaunsa animal pasand karte ho?", o: ["Lion 🦁", "Owl 🦉", "Dolphin 🐬", "Panda 🐼"], s: [4,3,2,1] },
+            { q: "Tum khud ko kaise describe karoge?", o: ["Leader 👑", "Creative 🎨", "Calm 😌", "Funny 😂"], s: [4,3,2,1] },
+            { q: "Tumhare liye success kya hai?", o: ["Happiness 😊", "Money 💵", "Power ⚡", "Peace 🕊"], s: [3,4,2,1] },
+            { q: "Tum kaunsa kaam zyada karte ho?", o: ["Helping 🤝", "Learning 📖", "Adventuring 🗺", "Relaxing 🛋"], s: [3,2,4,1] }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const nextBtn = document.getElementById('next-btn');
+        const resultEl = document.getElementById('result');
+
+        function loadQuestion() {
+            let q = quizData[currentQ];
+            questionEl.textContent = q.q;
+            optionsEl.innerHTML = "";
+            q.o.forEach((opt, index) => {
+                let btn = document.createElement("div");
+                btn.textContent = opt;
+                btn.classList.add("option");
+                btn.onclick = () => {
+                    score += q.s[index];
+                    nextBtn.style.display = "block";
+                };
+                optionsEl.appendChild(btn);
+            });
+            nextBtn.style.display = "none";
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        function showResult() {
+            optionsEl.style.display = "none";
+            questionEl.style.display = "none";
+            nextBtn.style.display = "none";
+            let personality = "";
+            if (score <= 20) personality = "Panda 🐼 – Calm aur caring personality!";
+            else if (score <= 30) personality = "Owl 🦉 – Intelligent aur thoughtful!";
+            else if (score <= 40) personality = "Dolphin 🐬 – Friendly aur creative!";
+            else personality = "Lion 🦁 – Bold aur leader type personality!";
+            resultEl.textContent = `Tumhari Personality: ${personality}`;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
